@@ -76,5 +76,13 @@ export const useAppStore = defineStore('app', {
         timestamp: new Date().toISOString(),
       })
     },
+    async saveLastProjectPath(path: string) {
+      this.settings.last_project_path = path
+      await invoke('save_settings', { settings: { ...this.settings } })
+    },
+    async clearLastProjectPath() {
+      this.settings.last_project_path = undefined
+      await invoke('save_settings', { settings: { ...this.settings } })
+    },
   },
 })

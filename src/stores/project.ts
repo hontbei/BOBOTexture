@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { SpriteSource } from '@/types'
+import type { SpriteSource, BoboProjectFile } from '@/types'
+import { writeTextFile, readTextFile } from '@/ipc/system'
+import { scanAtlasProInputs } from '@/ipc/atlaspro'
 
 function sourceFingerprint(source: SpriteSource): string {
   return `${source.sourcePath}::${JSON.stringify(source.subRect)}`
@@ -69,8 +71,87 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
+  function replaceSources(newSources: SpriteSource[]) {
+    undoStack.value = []
+    redoStack.value = []
+    sources.value = newSources
+  }
+
+  function resetProject(name: string) {
+    sources.value = []
+    projectFilePath.value = null
+    projectName.value = name
+    dirty.value = false
+    undoStack.value = []
+    redoStack.value = []
+  }
+
   function markClean() {
     dirty.value = false
+  }
+
+  function markDirty() {
+    dirty.value = true
+  }
+
+  async function saveProject(path: string) {
+    const { usePackStore } = await import('./pack')
+    const pack = usePackStore()
+    const file: BoboProjectFile = {
+      version: 1,
+      atlasName: pack.atlasName,
+      outputDir: pack.outputDir,
+      settings: {
+        algorithm: pack.algorithm,
+        maxWidth: pack.maxWidth,
+        maxHeight: pack.maxHeight,
+        autoSize: pack.autoSize,
+        padding: { ...pack.padding },
+        trim: pack.trim,
+        alphaThreshold: pack.alphaThreshold,
+        formats: [...pack.formats],
+        allowRotation: pack.allowRotation,
+      },
+      scaleVariants: pack.scaleVariants.map(v => ({ suffix: v.suffix, scale: v.scale })),
+      sources: [...new Set(sources.value.map(s => s.sourcePath))],
+    }
+    await writeTextFile(path, JSON.stringify(file, null, 2))
+    setProjectFile(path)
+    markClean()
+  }
+
+  async function loadProject(path: string) {
+    const content = await readTextFile(path)
+    const file: BoboProjectFile = JSON.parse(content)
+    const { usePackStore } = await import('./pack')
+    const pack = usePackStore()
+
+    pack.atlasName = file.atlasName
+    pack.outputDir = file.outputDir
+    pack.algorithm = file.settings.algorithm
+    pack.maxWidth = file.settings.maxWidth
+    pack.maxHeight = file.settings.maxHeight
+    pack.autoSize = file.settings.autoSize
+    pack.padding = { ...file.settings.padding }
+    pack.trim = file.settings.trim
+    pack.alphaThreshold = file.settings.alphaThreshold
+    pack.formats = [...file.settings.formats]
+    pack.allowRotation = file.settings.allowRotation
+    pack.scaleVariants = file.scaleVariants.map(v => ({ ...v }))
+
+    setProjectFile(path)
+    markClean()
+
+    if (file.sources.length > 0) {
+      try {
+        const discovered = await scanAtlasProInputs(file.sources, true)
+        replaceSources(discovered)
+      } catch (e) {
+        console.error('Failed to scan project sources:', e)
+      }
+    } else {
+      replaceSources([])
+    }
   }
 
   return {
@@ -85,9 +166,14 @@ export const useProjectStore = defineStore('project', () => {
     addSources,
     removeSource,
     clearSources,
+    replaceSources,
+    resetProject,
     undo,
     redo,
     setProjectFile,
     markClean,
+    markDirty,
+    saveProject,
+    loadProject,
   }
 })

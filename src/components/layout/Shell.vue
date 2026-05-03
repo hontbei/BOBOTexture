@@ -5,15 +5,32 @@ import PanelRight from './PanelRight.vue'
 import StatusBar from './StatusBar.vue'
 import Toolbar from './Toolbar.vue'
 import WindowChrome from './WindowChrome.vue'
+
+defineEmits<{
+  save: []
+  'save-as': []
+  new: []
+  open: []
+  'set-output-dir': []
+  publish: []
+  'request-close': []
+}>()
 </script>
 
 <template>
   <div class="shell-root">
     <div class="shell-chrome">
-      <WindowChrome />
+      <WindowChrome @request-close="$emit('request-close')" />
     </div>
     <div class="shell-toolbar">
-      <Toolbar />
+      <Toolbar
+        @save="$emit('save')"
+        @save-as="$emit('save-as')"
+        @new="$emit('new')"
+        @open="$emit('open')"
+        @set-output-dir="$emit('set-output-dir')"
+        @publish="$emit('publish')"
+      />
     </div>
     <div class="shell-body">
       <PanelLeft class="shell-left" />

@@ -26,6 +26,9 @@ pub fn run() {
             ipc::system::export_logs,
             ipc::system::collect_files,
             ipc::system::open_in_explorer,
+            ipc::system::read_text_file,
+            ipc::system::write_text_file,
+            ipc::system::path_exists,
             ipc::atlaspro::scan_atlaspro_inputs,
             ipc::atlaspro::execute_atlaspro,
         ])

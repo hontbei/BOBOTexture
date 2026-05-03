@@ -5,6 +5,7 @@ import type { AtlasProFormat, AtlasProReport } from '@/types'
 
 export const useReportStore = defineStore('report', () => {
   const report = ref<AtlasProReport | null>(null)
+  const lastPackDuration = ref(0)
 
   const formatLabels: Record<string, string> = {
     png_only: 'PNG Only',
@@ -77,16 +78,19 @@ export const useReportStore = defineStore('report', () => {
     ]
   })
 
-  function setReport(r: AtlasProReport) {
+  function setReport(r: AtlasProReport, durationMs = 0) {
     report.value = r
+    lastPackDuration.value = durationMs
   }
 
   function clearReport() {
     report.value = null
+    lastPackDuration.value = 0
   }
 
   return {
     report,
+    lastPackDuration,
     groupedOutputs,
     atlasPngUrl,
     tmpExamples,

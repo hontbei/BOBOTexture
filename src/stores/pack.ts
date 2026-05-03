@@ -36,6 +36,21 @@ export const usePackStore = defineStore('pack', () => {
     }
   })
 
+  function resetDefaults() {
+    algorithm.value = 'max_rects'
+    maxWidth.value = 4096
+    maxHeight.value = 4096
+    autoSize.value = true
+    padding.value = { borderPadding: 2, shapePadding: 2, extrude: 0 }
+    trim.value = 'none'
+    alphaThreshold.value = 0
+    formats.value = ['png_only', 'json_array', 'tmp_sprite_asset']
+    scaleVariants.value = []
+    allowRotation.value = false
+    outputDir.value = ''
+    atlasName.value = 'atlas'
+  }
+
   type PackSettings = {
     algorithm: AtlasProAlgorithm
     maxWidth: number
@@ -59,6 +74,7 @@ export const usePackStore = defineStore('pack', () => {
 
     busy.value = true
     try {
+      const start = performance.now()
       const report = await executeAtlasPro({
         sources: project.sources,
         outputDir: outputDir.value.trim(),
@@ -73,7 +89,7 @@ export const usePackStore = defineStore('pack', () => {
         scaleVariants: scaleVariants.value.map(v => ({ suffix: v.suffix.trim(), scale: v.scale })),
         autoSize: autoSize.value,
       })
-      reportStore.setReport(report)
+      reportStore.setReport(report, Math.round(performance.now() - start))
     } catch (err) {
       throw err
     } finally {
@@ -95,6 +111,7 @@ export const usePackStore = defineStore('pack', () => {
     const autoDir = outputDir.value.trim() || '/tmp/bobotexture-autopack'
     busy.value = true
     try {
+      const start = performance.now()
       const report = await executeAtlasPro({
         sources: project.sources,
         outputDir: autoDir,
@@ -109,7 +126,7 @@ export const usePackStore = defineStore('pack', () => {
         scaleVariants: scaleVariants.value.map(v => ({ suffix: v.suffix.trim(), scale: v.scale })),
         autoSize: autoSize.value,
       })
-      useReportStore().setReport(report)
+      useReportStore().setReport(report, Math.round(performance.now() - start))
     } catch {
       // Auto-pack errors are non-fatal
     } finally {
@@ -133,6 +150,7 @@ export const usePackStore = defineStore('pack', () => {
     busy,
     canExecute,
     tmpSelected,
+    resetDefaults,
     executePack,
     scheduleAutoPack,
     executeAutoPack,

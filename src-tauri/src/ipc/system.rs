@@ -28,6 +28,12 @@ pub struct CollectFilesRequest {
     pub recursive: bool,
 }
 
+#[derive(Debug, Deserialize)]
+pub struct WriteTextFileRequest {
+    pub path: String,
+    pub content: String,
+}
+
 #[derive(Debug, Serialize, Clone)]
 pub struct FileEntry {
     pub path: String,
@@ -166,4 +172,22 @@ fn build_file_entry(path: &std::path::Path) -> Result<FileEntry, AppError> {
         size: metadata.len(),
         modified_ms,
     })
+}
+
+#[tauri::command]
+pub fn read_text_file(path: String) -> Result<String, AppError> {
+    fs::read_to_string(&path).map_err(|e| AppError::new("read_file", format!("{}: {e}", path)))
+}
+
+#[tauri::command]
+pub fn write_text_file(request: WriteTextFileRequest) -> Result<(), AppError> {
+    if let Some(parent) = std::path::Path::new(&request.path).parent() {
+        fs::create_dir_all(parent).map_err(|e| AppError::new("write_file", format!("{}: {e}", request.path)))?;
+    }
+    fs::write(&request.path, &request.content).map_err(|e| AppError::new("write_file", format!("{}: {e}", request.path)))
+}
+
+#[tauri::command]
+pub fn path_exists(path: String) -> Result<bool, AppError> {
+    Ok(std::path::Path::new(&path).exists())
 }

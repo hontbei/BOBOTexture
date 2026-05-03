@@ -39,6 +39,9 @@ const formatDisplay = computed(() => {
       <span class="status-value text-mono">{{ atlasSize ? `${atlasSize.width}\u00D7${atlasSize.height}` : '\u2014' }}</span>
     </div>
     <div class="status-spacer" />
+    <div v-if="reportStore.lastPackDuration" class="status-section">
+      <span class="status-value text-mono">{{ reportStore.lastPackDuration }}ms</span>
+    </div>
     <div class="status-section">
       <span class="status-value">{{ formatDisplay }}</span>
     </div>

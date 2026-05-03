@@ -19,25 +19,31 @@ const cw = ref(800)
 const ch = ref(600)
 
 let resizeObserver: ResizeObserver | null = null
-const lastWheelX = 0
-const lastWheelY = 0
+let loadId = 0
 
 function loadImage() {
   const url = reportStore.atlasPngUrl
   if (!url) {
     imageLoaded.value = false
     atlasImage.value = null
+    redraw()
     return
   }
+  const currentLoad = ++loadId
+  imageLoaded.value = false
   const img = new Image()
   img.onload = () => {
+    if (currentLoad !== loadId) return
     atlasImage.value = img
     imageLoaded.value = true
+    redraw()
   }
   img.onerror = () => {
+    if (currentLoad !== loadId) return
     imageLoaded.value = false
+    redraw()
   }
-  img.src = url
+  img.src = `${url}?t=${Date.now()}`
 }
 
 function redraw() {
@@ -98,7 +104,6 @@ function onWheel(e: WheelEvent) {
 
 watch(() => reportStore.report, () => {
   loadImage()
-  setTimeout(redraw, 50)
 }, { immediate: true })
 
 watch([() => ui.zoom, () => ui.panOffset, () => ui.selectedSpriteId, () => ui.hoveredSpriteId, showGrid], () => {

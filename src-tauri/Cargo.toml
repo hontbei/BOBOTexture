@@ -37,3 +37,10 @@ quick-xml = { version = "0.36", features = ["serialize"] }
 md5 = "0.7"
 xxhash-rust = { version = "0.8", features = ["xxh64"] }
 sha2 = "0.10"
+
+[profile.release]
+opt-level = "s"
+lto = "thin"
+codegen-units = 1
+strip = "symbols"
+panic = "abort"

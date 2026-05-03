@@ -19,6 +19,8 @@ pub struct AppSettings {
     pub window_width: f64,
     pub window_height: f64,
     pub log_to_disk: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub last_project_path: Option<String>,
 }
 
 impl Default for AppSettings {
@@ -30,6 +32,7 @@ impl Default for AppSettings {
             window_width: 1280.0,
             window_height: 800.0,
             log_to_disk: false,
+            last_project_path: None,
         }
     }
 }

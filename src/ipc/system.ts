@@ -21,3 +21,15 @@ export function exportLogs(outputPath: string, logs?: LogEntry[]) {
 export function openInExplorer(path: string) {
   return invoke<void>('open_in_explorer', { path })
 }
+
+export function readTextFile(path: string) {
+  return invoke<string>('read_text_file', { path })
+}
+
+export function writeTextFile(path: string, content: string) {
+  return invoke<void>('write_text_file', { request: { path, content } })
+}
+
+export function pathExists(path: string) {
+  return invoke<boolean>('path_exists', { path })
+}

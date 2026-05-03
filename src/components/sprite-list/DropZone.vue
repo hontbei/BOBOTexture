@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { open } from '@tauri-apps/plugin-dialog'
+import { useFileDrop } from '../../composables/useFileDrop'
 
-const props = defineProps<{
+defineProps<{
   title: string
   subtitle?: string
 }>()
@@ -10,57 +11,54 @@ const emit = defineEmits<{
   submit: [paths: string[]]
 }>()
 
-const dragging = ref(false)
+const { isDragging, onDragOver, onDragLeave, onDrop } = useFileDrop((paths) => {
+  emit('submit', paths)
+})
 
-function onDragOver(e: DragEvent) {
-  e.preventDefault()
-  dragging.value = true
-}
-
-function onDragLeave() {
-  dragging.value = false
-}
-
-function onDrop(e: DragEvent) {
-  e.preventDefault()
-  dragging.value = false
-  const files: string[] = []
-  if (e.dataTransfer?.files) {
-    for (let i = 0; i < e.dataTransfer.files.length; i++) {
-      const file = e.dataTransfer.files[i]
-      if ('path' in file) {
-        files.push((file as any).path as string)
-      }
-    }
-  }
-  if (files.length) {
-    emit('submit', files)
-  }
+async function handleClick() {
+  const selected = await open({
+    multiple: true,
+    filters: [
+      { name: 'Images', extensions: ['png', 'jpg', 'jpeg', 'webp', 'bmp'] },
+      { name: 'All Files', extensions: ['*'] },
+    ],
+  })
+  if (!selected) return
+  const paths = Array.isArray(selected) ? selected : [selected]
+  emit('submit', paths)
 }
 </script>
 
 <template>
-  <div
+  <button
+    type="button"
     class="dropzone"
-    :class="{ 'dropzone-active': dragging }"
+    :class="{ 'dropzone-active': isDragging }"
     @dragover="onDragOver"
     @dragleave="onDragLeave"
     @drop="onDrop"
+    @click="handleClick"
   >
     <div class="dropzone-icon">+</div>
     <div class="dropzone-title">{{ title }}</div>
     <div v-if="subtitle" class="dropzone-subtitle">{{ subtitle }}</div>
-  </div>
+  </button>
 </template>
 
 <style scoped>
 .dropzone {
+  display: block;
+  width: calc(100% - 24px);
   margin: 12px;
   padding: 20px 16px;
   border: 2px dashed var(--border-color);
   border-radius: var(--radius-md);
   text-align: center;
   cursor: pointer;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 

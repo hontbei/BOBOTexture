@@ -5,6 +5,7 @@ export interface AppSettings {
   window_width: number
   window_height: number
   log_to_disk: boolean
+  last_project_path?: string
 }
 
 export interface LogEntry {
@@ -117,4 +118,23 @@ export interface AtlasProReport {
   placed: PackedSprite[]
   skipped: SkippedSprite[]
   outputs: EmittedFile[]
+}
+
+export interface BoboProjectFile {
+  version: number
+  atlasName: string
+  outputDir: string
+  settings: {
+    algorithm: AtlasProAlgorithm
+    maxWidth: number
+    maxHeight: number
+    autoSize: boolean
+    padding: PaddingOptions
+    trim: AtlasProTrim
+    alphaThreshold: number
+    formats: AtlasProFormat[]
+    allowRotation: boolean
+  }
+  scaleVariants: ScaleVariant[]
+  sources: string[]
 }
