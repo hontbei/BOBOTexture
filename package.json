@@ -1,0 +1,29 @@
+{
+  "name": "bobotexture-v2",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 1420",
+    "build": "vue-tsc --noEmit && vite build",
+    "win11:build": "bash ./scripts/build-win11.sh",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.3.0",
+    "@tauri-apps/plugin-dialog": "^2.2.1",
+    "pinia": "^3.0.1",
+    "vue": "^3.5.13",
+    "vue-i18n": "^10.0.6"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.3.1",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "typescript": "^5.8.3",
+    "vite": "^6.2.1",
+    "vue-tsc": "^2.2.8"
+  }
+}

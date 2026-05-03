@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${1:-}" == "-V" ]]; then
+  printf 'GNU windres (zig rc wrapper)\n'
+  exit 0
+fi
+
+input=''
+output=''
+target_arch='x86_64'
+declare -a includes=()
+declare -a defines=()
+
+case "${TARGET:-}" in
+  aarch64-*) target_arch='aarch64' ;;
+  i686-*) target_arch='x86' ;;
+esac
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --input)
+      input="$2"
+      shift 2
+      ;;
+    --output)
+      output="$2"
+      shift 2
+      ;;
+    --output-format=coff)
+      shift
+      ;;
+    --include-dir)
+      includes+=("$2")
+      shift 2
+      ;;
+    -D)
+      defines+=("$2")
+      shift 2
+      ;;
+    --target)
+      shift 2
+      ;;
+    -c)
+      shift 2
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+
+if [[ -z "$input" || -z "$output" ]]; then
+  printf 'zig-windres: missing --input or --output\n' >&2
+  exit 2
+fi
+
+cmd=(zig rc '/c' '65001' '/:auto-includes' 'none' '/:output-format' 'coff' '/:target' "$target_arch" '/fo' "$output")
+
+for include in "${includes[@]}"; do
+  cmd+=('/i' "$include")
+done
+
+for define in "${defines[@]}"; do
+  cmd+=('/d' "$define")
+done
+
+cmd+=(-- "$input")
+"${cmd[@]}"
