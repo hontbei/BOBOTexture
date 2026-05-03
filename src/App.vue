@@ -115,6 +115,19 @@ watch(
   },
   { deep: true }
 )
+
+watch(
+  () => ({
+    atlasName: pack.atlasName, outputDir: pack.outputDir,
+    algorithm: pack.algorithm, autoSize: pack.autoSize,
+    borderPadding: pack.padding.borderPadding, shapePadding: pack.padding.shapePadding,
+    extrude: pack.padding.extrude, trim: pack.trim, alphaThreshold: pack.alphaThreshold,
+    formats: pack.formats, scaleVariants: pack.scaleVariants,
+    allowRotation: pack.allowRotation,
+  }),
+  () => { project.markDirty() },
+  { deep: true }
+)
 </script>
 
 <template>
