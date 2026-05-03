@@ -34,7 +34,7 @@ async function handleExecute() {
         :disabled="!pack.canExecute"
         @click="handleExecute"
       >
-        {{ pack.busy ? 'Packing...' : 'Execute' }}
+        {{ pack.busy ? $t('common.loading') : $t('atlaspro.execute') }}
       </button>
     </div>
   </div>

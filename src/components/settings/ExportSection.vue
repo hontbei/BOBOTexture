@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { open } from '@tauri-apps/plugin-dialog'
 import { usePackStore } from '@/stores/pack'
 import SettingsSection from './SettingsSection.vue'
 import FormatChip from '../shared/FormatChip.vue'
 
 const pack = usePackStore()
-const submitAttempted = ref(false)
+const { t } = useI18n()
 
-const formatOptions = [
-  { value: 'png_only' as const, label: 'PNG Only', hint: null },
-  { value: 'json_array' as const, label: 'JSON Array', hint: 'TexturePacker format' },
-  { value: 'tmp_sprite_asset' as const, label: 'TMP Sprite Asset', hint: 'Unity TextMeshPro' },
-]
+const formatOptions = computed(() => [
+  { value: 'png_only' as const, label: t('atlaspro.formats.pngOnly'), hint: null },
+  { value: 'json_array' as const, label: t('atlaspro.formats.jsonArray'), hint: null },
+  { value: 'tmp_sprite_asset' as const, label: t('atlaspro.formats.tmpSpriteAsset'), hint: t('atlaspro.formats.tmpHint') },
+])
 
 function toggleFormat(format: string) {
   if (pack.formats.includes(format as any)) {
@@ -35,7 +36,7 @@ async function browseOutputDir() {
 </script>
 
 <template>
-  <SettingsSection title="Export" section-id="export">
+  <SettingsSection :title="$t('panels.export')" section-id="export">
     <div class="format-chips">
       <FormatChip
         v-for="opt in formatOptions"
@@ -48,26 +49,26 @@ async function browseOutputDir() {
     </div>
 
     <label class="form-field" style="margin-top: 12px">
-      <span class="form-label">Output Dir</span>
+      <span class="form-label">{{ $t('atlaspro.fields.outputDir') }}</span>
       <div class="input-row">
         <input
           type="text"
           class="form-input flex-input"
           :value="pack.outputDir"
-          placeholder="Select output folder..."
+          :placeholder="$t('atlaspro.placeholders.outputDir')"
           @input="pack.outputDir = ($event.target as HTMLInputElement).value"
         />
-        <button class="browse-btn" @click="browseOutputDir">…</button>
+        <button class="browse-btn" :title="$t('common.browse')" @click="browseOutputDir">…</button>
       </div>
     </label>
 
     <label class="form-field" style="margin-top: 8px">
-      <span class="form-label">Atlas Name</span>
+      <span class="form-label">{{ $t('atlaspro.fields.atlasName') }}</span>
       <input
         type="text"
         class="form-input flex-input"
         :value="pack.atlasName"
-        placeholder="atlas"
+        :placeholder="$t('atlaspro.placeholders.atlasName')"
         @input="pack.atlasName = ($event.target as HTMLInputElement).value"
       />
     </label>

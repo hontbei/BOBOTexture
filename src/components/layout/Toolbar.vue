@@ -19,38 +19,38 @@ const emit = defineEmits<{
 <template>
   <div class="toolbar">
     <div class="toolbar-group">
-      <button class="toolbar-btn" title="New (Ctrl+N)" @click="emit('new')">
+      <button class="toolbar-btn" :title="$t('toolbar.new') + ' (Ctrl+N)'" @click="emit('new')">
         <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
       </button>
-      <button class="toolbar-btn" title="Open (Ctrl+O)" @click="emit('open')">
+      <button class="toolbar-btn" :title="$t('toolbar.open') + ' (Ctrl+O)'" @click="emit('open')">
         <svg width="16" height="16" viewBox="0 0 16 16"><path d="M2 4l4-2h8v10H2z" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
       </button>
-      <button class="toolbar-btn" title="Save (Ctrl+S)" @click="emit('save')">
+      <button class="toolbar-btn" :title="$t('toolbar.save') + ' (Ctrl+S)'" @click="emit('save')">
         <svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 13h10V5l-2-2H3zM3 13V3" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M5 13V9h6v4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
       </button>
-      <button class="toolbar-btn" title="Save As..." @click="emit('save-as')">
+      <button class="toolbar-btn" :title="$t('toolbar.saveAs')" @click="emit('save-as')">
         <svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 13h10V5l-2-2H3z" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M7 7v5M5 10h4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
       </button>
-      <button class="toolbar-btn" title="Set Output Directory" @click="emit('set-output-dir')">
+      <button class="toolbar-btn" :title="$t('toolbar.output')" @click="emit('set-output-dir')">
         <svg width="16" height="16" viewBox="0 0 16 16"><path d="M2 5l2-2h4l2 2h4v7H2z" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
       </button>
     </div>
     <div class="toolbar-separator" />
     <div class="toolbar-group">
-      <button class="toolbar-btn" :disabled="!project.undoStack.length" title="Undo (Ctrl+Z)" @click="project.undo()">
+      <button class="toolbar-btn" :disabled="!project.undoStack.length" :title="$t('toolbar.undo') + ' (Ctrl+Z)'" @click="project.undo()">
         <svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 7h7a3 3 0 010 6H6" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M6 4l-3 3 3 3" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
       </button>
-      <button class="toolbar-btn" :disabled="!project.redoStack.length" title="Redo (Ctrl+Shift+Z)" @click="project.redo()">
+      <button class="toolbar-btn" :disabled="!project.redoStack.length" :title="$t('toolbar.redo') + ' (Ctrl+Shift+Z)'" @click="project.redo()">
         <svg width="16" height="16" viewBox="0 0 16 16"><path d="M13 7H6a3 3 0 000 6h4" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M10 4l3 3-3 3" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
       </button>
     </div>
     <div class="toolbar-spacer" />
     <div class="toolbar-group">
-      <button class="toolbar-btn" title="Settings" @click="emit('settings-open')">
+      <button class="toolbar-btn" :title="$t('toolbar.settings')" @click="emit('settings-open')">
         <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M8 1v2m0 10v2M1 8h2m10 0h2M3.05 3.05l1.41 1.41m7.08 7.08l1.41 1.41m0-12.9l-1.41 1.41m-7.08 7.08l-1.41 1.41" stroke="currentColor" stroke-width="1.2"/></svg>
       </button>
-      <button class="toolbar-btn toolbar-btn-publish" :disabled="!pack.canExecute" title="Publish" @click="emit('publish')">
-        Publish
+      <button class="toolbar-btn toolbar-btn-publish" :disabled="!pack.canExecute" :title="$t('toolbar.publish')" @click="emit('publish')">
+        {{ $t('toolbar.publish') }}
       </button>
     </div>
   </div>

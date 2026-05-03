@@ -37,7 +37,7 @@ const pathDisplay = computed(() => {
     </span>
     <span class="sprite-col sprite-col-size text-mono">{{ displaySize }}</span>
     <span class="sprite-col sprite-col-path truncate text-muted" :title="source.sourcePath">{{ pathDisplay }}</span>
-    <button class="sprite-col sprite-col-remove" @click.stop="emit('remove')" title="Remove">×</button>
+    <button class="sprite-col sprite-col-remove" @click.stop="emit('remove')" :title="$t('common.remove')">×</button>
   </div>
 </template>
 

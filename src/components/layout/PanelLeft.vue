@@ -44,7 +44,7 @@ onUnmounted(() => {
 <template>
   <div ref="panelRef" class="panel-left panel-glass" :style="{ width: width + 'px' }">
     <div class="panel-header">
-      <span class="panel-title">Sprites</span>
+      <span class="panel-title">{{ $t('panels.sprites') }}</span>
     </div>
     <SpriteListPanel />
     <div

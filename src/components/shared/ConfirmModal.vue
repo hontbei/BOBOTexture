@@ -24,12 +24,12 @@ defineExpose({ show })
   <Teleport to="body">
     <div v-if="visible" class="modal-overlay" @click.self="choose('cancel')">
       <div class="modal-box">
-        <div class="modal-title">Unsaved Changes</div>
-        <div class="modal-text">Do you want to save changes to this project?</div>
+        <div class="modal-title">{{ $t('confirm.title') }}</div>
+        <div class="modal-text">{{ $t('confirm.message') }}</div>
         <div class="modal-actions">
-          <button class="modal-btn modal-btn-cancel" @click="choose('cancel')">Cancel</button>
-          <button class="modal-btn modal-btn-discard" @click="choose('discard')">Don't Save</button>
-          <button class="modal-btn modal-btn-save" @click="choose('save')">Save</button>
+          <button class="modal-btn modal-btn-cancel" @click="choose('cancel')">{{ $t('confirm.cancel') }}</button>
+          <button class="modal-btn modal-btn-discard" @click="choose('discard')">{{ $t('confirm.discard') }}</button>
+          <button class="modal-btn modal-btn-save" @click="choose('save')">{{ $t('confirm.save') }}</button>
         </div>
       </div>
     </div>

@@ -26,24 +26,24 @@ async function handleDrop(paths: string[]) {
 <template>
   <div class="sprite-list-panel">
     <DropZone
-      :title="t('atlaspro.drop') || 'Drop images here'"
-      :subtitle="t('atlaspro.dropSub') || 'or use File → Open'"
+      :title="t('atlaspro.drop')"
+      :subtitle="t('atlaspro.dropSub')"
       @submit="handleDrop"
     />
 
     <div class="list-controls">
-      <span class="count-pill">{{ project.sourceCount }} sprites</span>
+      <span class="count-pill">{{ t('atlaspro.spriteCount', { count: project.sourceCount }) }}</span>
       <div class="list-actions">
         <label class="recursive-toggle">
           <input v-model="recursive" type="checkbox" />
-          <span>Recursive</span>
+          <span>{{ t('common.recursive') }}</span>
         </label>
         <button
           class="action-btn"
           :disabled="!project.sourceCount"
           @click="project.clearSources()"
         >
-          Clear
+          {{ t('atlaspro.clearList') }}
         </button>
       </div>
     </div>

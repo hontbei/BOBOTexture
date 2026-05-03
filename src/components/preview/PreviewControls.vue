@@ -21,8 +21,8 @@ const zoomPercent = computed(() => Math.round(zoom.value * 100) + '%')
 
 <template>
   <div class="preview-controls">
-    <button class="ctrl-btn" @click="fitToCanvas" title="Fit">◱</button>
-    <button class="ctrl-btn" @click="resetZoom" title="100%">1:1</button>
+    <button class="ctrl-btn" @click="fitToCanvas" :title="$t('preview.fit')">◱</button>
+    <button class="ctrl-btn" @click="resetZoom" :title="$t('preview.zoom100')">1:1</button>
     <input
       type="range"
       class="zoom-slider"
@@ -34,9 +34,9 @@ const zoomPercent = computed(() => Math.round(zoom.value * 100) + '%')
       title="Zoom"
     />
     <span class="zoom-label">{{ zoomPercent }}</span>
-    <label class="grid-toggle" title="Show grid">
+    <label class="grid-toggle" :title="$t('preview.grid')">
       <input v-model="showGrid" type="checkbox" />
-      <span>Grid</span>
+      <span>{{ $t('preview.grid') }}</span>
     </label>
   </div>
 </template>

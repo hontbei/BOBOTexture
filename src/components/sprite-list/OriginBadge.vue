@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <span class="origin-badge" :class="origin">{{ origin === 'unity_sub_sprite' ? 'Unity' : 'File' }}</span>
+  <span class="origin-badge" :class="origin">{{ origin === 'unity_sub_sprite' ? $t('atlaspro.origin.unitySubSprite') : $t('atlaspro.origin.file') }}</span>
 </template>
 
 <style scoped>

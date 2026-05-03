@@ -30,7 +30,7 @@ function onInput(e: Event) {
     <input
       type="text"
       :value="query"
-      placeholder="Filter sprites..."
+      :placeholder="$t('atlaspro.table.empty')"
       class="search-input"
       @input="onInput"
     />

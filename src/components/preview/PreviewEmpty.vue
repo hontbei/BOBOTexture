@@ -1,8 +1,8 @@
 <template>
   <div class="preview-empty">
     <div class="empty-icon">⌖</div>
-    <div class="empty-title">No atlas yet</div>
-    <div class="empty-text">Drop sprites or click Open to add images</div>
+    <div class="empty-title">{{ $t('preview.noAtlas') }}</div>
+    <div class="empty-text">{{ $t('preview.dropHint') }}</div>
   </div>
 </template>
 

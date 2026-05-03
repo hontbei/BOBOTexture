@@ -49,7 +49,7 @@ onUnmounted(() => {
       @mousedown="onMouseDown"
     />
     <div class="panel-header">
-      <span class="panel-title">Settings</span>
+      <span class="panel-title">{{ $t('panels.settings') }}</span>
     </div>
     <SettingsPanel />
   </div>

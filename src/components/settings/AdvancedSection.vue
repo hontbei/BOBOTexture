@@ -28,22 +28,22 @@ function removeVariant(index: number) {
 </script>
 
 <template>
-  <SettingsSection title="Advanced" section-id="advanced">
+  <SettingsSection :title="$t('atlaspro.sections.advanced')" section-id="advanced">
     <FormCheckbox
       v-model="pack.allowRotation"
-      label="Allow Rotation"
+      :label="$t('allowRotation')"
       style="margin-bottom: 10px"
     />
     <p v-if="pack.tmpSelected && pack.allowRotation" style="font-size: 11px; color: var(--warning); margin-top: -6px; margin-bottom: 8px">
-      Rotation disabled when TMP is selected
+      {{ $t('rotationDisabled') }}
     </p>
 
     <div class="variant-section">
       <div class="variant-header">
-        <span class="form-label">Scale Variants</span>
+        <span class="form-label">{{ $t('atlaspro.sections.variants') }}</span>
         <div class="variant-actions">
-          <button class="mini-btn" @click="addPresets">Presets</button>
-          <button class="mini-btn" @click="addVariant">+ Add</button>
+          <button class="mini-btn" @click="addPresets">{{ $t('atlaspro.variants.commonPreset') }}</button>
+          <button class="mini-btn" @click="addVariant">{{ $t('atlaspro.variants.add') }}</button>
         </div>
       </div>
       <div v-for="(v, i) in pack.scaleVariants" :key="i" class="variant-row">
@@ -51,7 +51,7 @@ function removeVariant(index: number) {
           type="text"
           class="variant-input suffix"
           :value="v.suffix"
-          placeholder="@2x"
+          :placeholder="$t('atlaspro.placeholders.variantSuffix')"
           @input="pack.scaleVariants[i] = { ...pack.scaleVariants[i], suffix: ($event.target as HTMLInputElement).value }"
         />
         <input
@@ -60,6 +60,7 @@ function removeVariant(index: number) {
           :value="v.scale"
           min="0.01"
           step="0.1"
+          :placeholder="$t('atlaspro.placeholders.variantScale')"
           @input="pack.scaleVariants[i] = { ...pack.scaleVariants[i], scale: parseFloat(($event.target as HTMLInputElement).value) }"
         />
         <button class="remove-btn" @click="removeVariant(i)">×</button>

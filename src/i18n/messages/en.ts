@@ -140,4 +140,13 @@ export default {
   },
   settings: { title: 'Settings', language: 'Language', particle: 'Particle intensity', animation: 'Launch animation', logToDisk: 'Write logs to disk', window: 'Default window size', configDir: 'Config directory', save: 'Save settings' },
   log: { title: 'Log Panel', export: 'Export logs', empty: 'No logs yet' },
+  toolbar: { new: 'New', open: 'Open', save: 'Save', saveAs: 'Save As', output: 'Set Output Folder', undo: 'Undo', redo: 'Redo', publish: 'Publish', settings: 'Settings' },
+  preview: { grid: 'Grid', fit: 'Fit', zoom100: '100%', noAtlas: 'No atlas yet', dropHint: 'Drop sprites or click Open to add images', packing: 'Packing...' },
+  confirm: { title: 'Unsaved Changes', message: 'Do you want to save changes to this project?', save: 'Save', discard: "Don't Save", cancel: 'Cancel' },
+  status: { sprites: 'Sprites', atlas: 'Atlas', noFormat: 'No format' },
+  layoutSection: { autoSize: 'Auto-size', autoSizeHint: 'Auto: 256 → 4096' },
+  empty: { noMatching: 'No matching sprites', noSprites: 'No sprites added yet' },
+  appTitle: 'BOBOTexture V2',
+  allowRotation: 'Allow Rotation',
+  rotationDisabled: 'Rotation disabled when TMP is selected',
 }

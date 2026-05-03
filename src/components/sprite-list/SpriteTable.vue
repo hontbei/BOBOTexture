@@ -38,11 +38,11 @@ function onLeave() {
 <template>
   <div class="sprite-table">
     <div class="table-header">
-      <span>Name</span>
-      <span>Origin</span>
-      <span>Size</span>
-      <span>Path</span>
-      <span></span>
+      <span>{{ $t('atlaspro.table.name') }}</span>
+      <span>{{ $t('atlaspro.table.origin') }}</span>
+      <span>{{ $t('atlaspro.table.size') }}</span>
+      <span>{{ $t('atlaspro.table.path') }}</span>
+      <span>{{ $t('atlaspro.table.actions') }}</span>
     </div>
     <div class="table-body">
       <SpriteRow
@@ -57,7 +57,7 @@ function onLeave() {
         @remove="emit('remove', source)"
       />
       <div v-if="!filteredSources.length" class="table-empty">
-        {{ filter ? 'No matching sprites' : 'No sprites added yet' }}
+        {{ filter ? $t('empty.noMatching') : $t('empty.noSprites') }}
       </div>
     </div>
   </div>

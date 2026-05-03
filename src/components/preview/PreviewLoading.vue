@@ -1,7 +1,7 @@
 <template>
   <div class="preview-loading">
     <div class="loading-spinner"></div>
-    <div class="loading-text">Packing...</div>
+    <div class="loading-text">{{ $t('preview.packing') }}</div>
   </div>
 </template>
 

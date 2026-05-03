@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useProjectStore } from '@/stores/project'
 import { useReportStore } from '@/stores/report'
 import { usePackStore } from '@/stores/pack'
@@ -7,6 +8,7 @@ import { usePackStore } from '@/stores/pack'
 const project = useProjectStore()
 const reportStore = useReportStore()
 const pack = usePackStore()
+const { t } = useI18n()
 
 const spriteCount = computed(() => project.sourceCount)
 
@@ -17,7 +19,7 @@ const atlasSize = computed(() => {
 })
 
 const formatDisplay = computed(() => {
-  if (!pack.formats.length) return 'No format'
+  if (!pack.formats.length) return t('status.noFormat')
   const labels: Record<string, string> = {
     png_only: 'PNG',
     json_array: 'JSON',
@@ -30,12 +32,12 @@ const formatDisplay = computed(() => {
 <template>
   <div class="statusbar">
     <div class="status-section">
-      <span class="status-label">Sprites:</span>
+      <span class="status-label">{{ $t('status.sprites') + ': ' }}</span>
       <span class="status-value">{{ spriteCount }}</span>
     </div>
     <div class="status-divider">|</div>
     <div class="status-section">
-      <span class="status-label">Atlas:</span>
+      <span class="status-label">{{ $t('status.atlas') + ': ' }}</span>
       <span class="status-value text-mono">{{ atlasSize ? `${atlasSize.width}\u00D7${atlasSize.height}` : '\u2014' }}</span>
     </div>
     <div class="status-spacer" />

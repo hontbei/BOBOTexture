@@ -7,9 +7,9 @@ const pack = usePackStore()
 </script>
 
 <template>
-  <SettingsSection title="Spacing" section-id="spacing">
-    <FormNumberInput v-model="pack.padding.shapePadding" label="Shape Padding" :min="0" :max="128" />
-    <FormNumberInput v-model="pack.padding.borderPadding" label="Border Padding" :min="0" :max="128" style="margin-top: 8px" />
-    <FormNumberInput v-model="pack.padding.extrude" label="Extrude" :min="0" :max="32" style="margin-top: 8px" />
+  <SettingsSection :title="$t('panels.spacing')" section-id="spacing">
+    <FormNumberInput v-model="pack.padding.shapePadding" :label="$t('atlaspro.fields.shapePadding')" :min="0" :max="128" />
+    <FormNumberInput v-model="pack.padding.borderPadding" :label="$t('atlaspro.fields.borderPadding')" :min="0" :max="128" style="margin-top: 8px" />
+    <FormNumberInput v-model="pack.padding.extrude" :label="$t('atlaspro.fields.extrude')" :min="0" :max="32" style="margin-top: 8px" />
   </SettingsSection>
 </template>

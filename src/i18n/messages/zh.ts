@@ -140,4 +140,13 @@ export default {
   },
   settings: { title: '设置', language: '界面语言', particle: '粒子强度', animation: '启动动画', logToDisk: '自动写入本地日志', window: '默认窗口尺寸', configDir: '配置目录', save: '保存设置' },
   log: { title: '日志面板', export: '导出日志', empty: '暂无日志' },
+  toolbar: { new: '新建', open: '打开', save: '保存', saveAs: '另存为', output: '设置输出目录', undo: '撤销', redo: '重做', publish: '发布', settings: '设置' },
+  preview: { grid: '网格', fit: '适配', zoom100: '100%', noAtlas: '暂无图集', dropHint: '拖入精灵或点击打开添加图片', packing: '打包中...' },
+  confirm: { title: '未保存的更改', message: '是否保存对项目的更改？', save: '保存', discard: '不保存', cancel: '取消' },
+  status: { sprites: '精灵', atlas: '图集', noFormat: '未选格式' },
+  layoutSection: { autoSize: '自动适配', autoSizeHint: '自动: 256 → 4096' },
+  empty: { noMatching: '无匹配精灵', noSprites: '暂无精灵' },
+  appTitle: 'BOBOTexture V2',
+  allowRotation: '允许旋转',
+  rotationDisabled: 'TMP 格式不支持旋转',
 }

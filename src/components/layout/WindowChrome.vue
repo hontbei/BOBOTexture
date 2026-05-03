@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { getCurrentWindow } from '@tauri-apps/api/window'
 import { useProjectStore } from '@/stores/project'
 
 const appWindow = getCurrentWindow()
 const project = useProjectStore()
+const { t } = useI18n()
 
 const title = computed(() => {
   const name = project.projectName
   const dirty = project.dirty ? ' *' : ''
-  return name ? `${name}${dirty} — BOBOTexture V2` : 'BOBOTexture V2'
+  return name ? `${name}${dirty} — ${t('appTitle')}` : t('appTitle')
 })
 
 const emit = defineEmits<{ 'request-close': [] }>()
