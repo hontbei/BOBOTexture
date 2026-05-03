@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useReportStore } from '@/stores/report'
 import SettingsSection from './SettingsSection.vue'
 
 const reportStore = useReportStore()
 const { t } = useI18n()
-const copiedTagKey = ref<string | null>(null)
+const copied = ref(false)
 let copyTimer: ReturnType<typeof setTimeout> | null = null
 
-async function copyTag(tag: string, key: string) {
+const allTags = computed(() => reportStore.tmpExamples.join('\n'))
+
+async function copyAll() {
   try {
-    await navigator.clipboard.writeText(tag)
-    copiedTagKey.value = key
+    await navigator.clipboard.writeText(allTags.value)
+    copied.value = true
     if (copyTimer) clearTimeout(copyTimer)
-    copyTimer = setTimeout(() => { copiedTagKey.value = null }, 1600)
-  } catch {
-    // clipboard not available
-  }
+    copyTimer = setTimeout(() => { copied.value = false }, 1600)
+  } catch {}
 }
 
 function formatLabel(format: string) {
@@ -25,13 +25,6 @@ function formatLabel(format: string) {
   if (format === 'json_array') return t('atlaspro.formats.jsonArray')
   if (format === 'tmp_sprite_asset') return t('atlaspro.formats.tmpSpriteAsset')
   return format
-}
-
-function exampleLabel(key: string) {
-  if (key === 'default') return t('atlaspro.result.defaultAssetTag')
-  if (key === 'explicit') return t('atlaspro.result.explicitAssetTag')
-  if (key === 'index') return t('atlaspro.result.indexTag')
-  return key
 }
 </script>
 
@@ -70,16 +63,13 @@ function exampleLabel(key: string) {
       </div>
 
       <div v-if="reportStore.tmpExamples.length" class="tmp-examples">
-        <div class="tmp-title">{{ $t('atlaspro.result.tmpUsageTitle') }}</div>
-        <div v-for="ex in reportStore.tmpExamples" :key="ex.key" class="tmp-example">
-          <div class="tmp-example-header">
-            <span>{{ exampleLabel(ex.key) }}</span>
-            <button class="copy-btn" @click="copyTag(ex.tag, ex.key)">
-              {{ copiedTagKey === ex.key ? $t('atlaspro.result.copied') : $t('atlaspro.result.copyTag') }}
-            </button>
-          </div>
-          <code class="tmp-code">{{ ex.tag }}</code>
+        <div class="tmp-header">
+          <span class="tmp-title">{{ $t('atlaspro.result.tmpUsageTitle') }}</span>
+          <button class="copy-btn" @click="copyAll">
+            {{ copied ? $t('atlaspro.result.copied') : $t('atlaspro.result.copyTag') }}
+          </button>
         </div>
+        <code class="tmp-code">{{ allTags }}</code>
       </div>
     </SettingsSection>
   </div>
@@ -153,24 +143,17 @@ function exampleLabel(key: string) {
   margin-top: 10px;
 }
 
+.tmp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
 .tmp-title {
   font-size: 11px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 6px;
-}
-
-.tmp-example {
-  margin-bottom: 8px;
-}
-
-.tmp-example-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 11px;
-  color: var(--text-secondary);
-  margin-bottom: 3px;
 }
 
 .copy-btn {
@@ -180,6 +163,7 @@ function exampleLabel(key: string) {
   border-radius: var(--radius-sm);
   background: var(--bg-input);
   color: var(--accent);
+  cursor: pointer;
 }
 
 .copy-btn:hover {
@@ -188,12 +172,15 @@ function exampleLabel(key: string) {
 
 .tmp-code {
   display: block;
-  padding: 6px 8px;
+  padding: 8px 10px;
   background: #f1f3f4;
   border-radius: var(--radius-sm);
   font-size: 11px;
   font-family: var(--font-mono);
   color: var(--text-primary);
-  overflow-x: auto;
+  white-space: pre-wrap;
+  line-height: 1.7;
+  max-height: 200px;
+  overflow-y: auto;
 }
 </style>

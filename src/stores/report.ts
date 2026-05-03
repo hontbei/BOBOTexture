@@ -46,36 +46,15 @@ export const useReportStore = defineStore('report', () => {
     return null
   })
 
-  interface TmpExample {
-    key: string
-    label: string
-    tag: string
-  }
-
-  const tmpExamples = computed<TmpExample[]>(() => {
+  const tmpExamples = computed<string[]>(() => {
     const r = report.value
     if (!r) return []
     const hasTmpOutput = r.outputs.some(o => o.format === 'tmp_sprite_asset')
-    const firstSprite = r.placed[0]
-    if (!hasTmpOutput || !firstSprite) return []
+    if (!hasTmpOutput || !r.placed.length) return []
 
-    return [
-      {
-        key: 'default',
-        label: 'Default Asset Tag',
-        tag: `<sprite name="${firstSprite.name}">`,
-      },
-      {
-        key: 'explicit',
-        label: 'Explicit Asset Name',
-        tag: `<sprite="atlas" name="${firstSprite.name}">`,
-      },
-      {
-        key: 'index',
-        label: 'Index-Based Tag',
-        tag: '<sprite=0>',
-      },
-    ]
+    return r.placed.map(s =>
+      `front<sprite name="${s.name}">back`
+    )
   })
 
   function setReport(r: AtlasProReport, durationMs = 0) {
