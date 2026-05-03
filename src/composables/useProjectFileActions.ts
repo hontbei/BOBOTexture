@@ -72,10 +72,8 @@ export function useProjectFileActions() {
 
   async function doNew() {
     if (!(await guardDestructive())) return
-    project.beginSuppress()
     project.resetProject(freshName())
     pack.resetDefaults()
-    project.endSuppress()
     report.clearReport()
   }
 

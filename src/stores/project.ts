@@ -13,7 +13,7 @@ export const useProjectStore = defineStore('project', () => {
   const projectFilePath = ref<string | null>(null)
   const projectName = ref('Untitled')
   const dirty = ref(false)
-  const suppressDirty = ref(false)
+  const savedFingerprint = ref('')
   const undoStack = ref<SpriteSource[][]>([])
   const redoStack = ref<SpriteSource[][]>([])
 
@@ -35,7 +35,6 @@ export const useProjectStore = defineStore('project', () => {
     const toAdd = newSources.filter(s => !existing.has(sourceFingerprint(s)))
     if (toAdd.length) {
       sources.value = [...sources.value, ...toAdd]
-      dirty.value = true
     }
   }
 
@@ -43,13 +42,11 @@ export const useProjectStore = defineStore('project', () => {
     snapshotForUndo()
     const fp = sourceFingerprint(target)
     sources.value = sources.value.filter(s => sourceFingerprint(s) !== fp)
-    dirty.value = true
   }
 
   function clearSources() {
     snapshotForUndo()
     sources.value = []
-    dirty.value = true
   }
 
   function undo() {
@@ -83,6 +80,7 @@ export const useProjectStore = defineStore('project', () => {
     projectFilePath.value = null
     projectName.value = name
     dirty.value = false
+    savedFingerprint.value = ''
     undoStack.value = []
     redoStack.value = []
   }
@@ -91,12 +89,9 @@ export const useProjectStore = defineStore('project', () => {
     dirty.value = false
   }
 
-  function markDirty() {
-    if (!suppressDirty.value) dirty.value = true
+  function setFingerprint(fp: string) {
+    savedFingerprint.value = fp
   }
-
-  function beginSuppress() { suppressDirty.value = true }
-  function endSuppress() { suppressDirty.value = false }
 
   async function saveProject(path: string) {
     const { usePackStore } = await import('./pack')
@@ -122,69 +117,48 @@ export const useProjectStore = defineStore('project', () => {
     await writeTextFile(path, JSON.stringify(file, null, 2))
     setProjectFile(path)
     markClean()
+    setFingerprint(JSON.stringify(file))
   }
 
   async function loadProject(path: string) {
-    beginSuppress()
-    try {
-      const content = await readTextFile(path)
-      const file: BoboProjectFile = JSON.parse(content)
-      const { usePackStore } = await import('./pack')
-      const pack = usePackStore()
+    const content = await readTextFile(path)
+    const file: BoboProjectFile = JSON.parse(content)
+    const { usePackStore } = await import('./pack')
+    const pack = usePackStore()
 
-      pack.atlasName = file.atlasName
-      pack.outputDir = file.outputDir
-      pack.algorithm = file.settings.algorithm
-      pack.maxWidth = file.settings.maxWidth
-      pack.maxHeight = file.settings.maxHeight
-      pack.autoSize = file.settings.autoSize
-      pack.padding = { ...file.settings.padding }
-      pack.trim = file.settings.trim
-      pack.alphaThreshold = file.settings.alphaThreshold
-      pack.formats = [...file.settings.formats]
-      pack.allowRotation = file.settings.allowRotation
-      pack.scaleVariants = file.scaleVariants.map(v => ({ ...v }))
+    pack.atlasName = file.atlasName
+    pack.outputDir = file.outputDir
+    pack.algorithm = file.settings.algorithm
+    pack.maxWidth = file.settings.maxWidth
+    pack.maxHeight = file.settings.maxHeight
+    pack.autoSize = file.settings.autoSize
+    pack.padding = { ...file.settings.padding }
+    pack.trim = file.settings.trim
+    pack.alphaThreshold = file.settings.alphaThreshold
+    pack.formats = [...file.settings.formats]
+    pack.allowRotation = file.settings.allowRotation
+    pack.scaleVariants = file.scaleVariants.map(v => ({ ...v }))
 
-      setProjectFile(path)
-      markClean()
+    setProjectFile(path)
+    markClean()
+    setFingerprint(JSON.stringify(file))
 
-      if (file.sources.length > 0) {
-        try {
-          const discovered = await scanAtlasProInputs(file.sources, true)
-          replaceSources(discovered)
-        } catch (e) {
-          console.error('Failed to scan project sources:', e)
-        }
-      } else {
-        replaceSources([])
+    if (file.sources.length > 0) {
+      try {
+        const discovered = await scanAtlasProInputs(file.sources, true)
+        replaceSources(discovered)
+      } catch (e) {
+        console.error('Failed to scan project sources:', e)
       }
-    } finally {
-      endSuppress()
+    } else {
+      replaceSources([])
     }
   }
 
   return {
-    sources,
-    projectFilePath,
-    projectName,
-    dirty,
-    undoStack,
-    redoStack,
-    sourceCount,
-    fingerprints,
-    addSources,
-    removeSource,
-    clearSources,
-    replaceSources,
-    resetProject,
-    undo,
-    redo,
-    setProjectFile,
-    markClean,
-    markDirty,
-    beginSuppress,
-    endSuppress,
-    saveProject,
-    loadProject,
+    sources, projectFilePath, projectName, dirty, savedFingerprint,
+    undoStack, redoStack, sourceCount, fingerprints,
+    addSources, removeSource, clearSources, replaceSources, resetProject,
+    undo, redo, setProjectFile, markClean, setFingerprint, saveProject, loadProject,
   }
 })

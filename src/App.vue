@@ -120,12 +120,27 @@ watch(
   () => ({
     atlasName: pack.atlasName, outputDir: pack.outputDir,
     algorithm: pack.algorithm, autoSize: pack.autoSize,
+    maxWidth: pack.maxWidth, maxHeight: pack.maxHeight,
     borderPadding: pack.padding.borderPadding, shapePadding: pack.padding.shapePadding,
     extrude: pack.padding.extrude, trim: pack.trim, alphaThreshold: pack.alphaThreshold,
     formats: pack.formats, scaleVariants: pack.scaleVariants,
     allowRotation: pack.allowRotation,
+    sources: project.sources.map(s => s.sourcePath),
   }),
-  () => { project.markDirty() },
+  () => {
+    const fp = JSON.stringify({
+      sources: project.sources.map(s => s.sourcePath).sort(),
+      atlasName: pack.atlasName, outputDir: pack.outputDir,
+      algorithm: pack.algorithm, autoSize: pack.autoSize,
+      maxWidth: pack.maxWidth, maxHeight: pack.maxHeight,
+      padding: pack.padding, trim: pack.trim,
+      alphaThreshold: pack.alphaThreshold,
+      formats: [...pack.formats].sort(),
+      allowRotation: pack.allowRotation,
+      scaleVariants: pack.scaleVariants,
+    })
+    project.dirty = (fp !== project.savedFingerprint)
+  },
   { deep: true }
 )
 </script>

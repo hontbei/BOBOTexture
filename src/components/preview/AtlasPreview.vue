@@ -30,7 +30,6 @@ function loadImage() {
     return
   }
   const currentLoad = ++loadId
-  imageLoaded.value = false
   const img = new Image()
   img.onload = () => {
     if (currentLoad !== loadId) return
@@ -40,8 +39,6 @@ function loadImage() {
   }
   img.onerror = () => {
     if (currentLoad !== loadId) return
-    imageLoaded.value = false
-    redraw()
   }
   img.src = `${url}?t=${Date.now()}`
 }
