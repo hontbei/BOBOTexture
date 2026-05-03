@@ -12,6 +12,7 @@ const emit = defineEmits<{
   open: []
   'set-output-dir': []
   publish: []
+  'settings-open': []
 }>()
 </script>
 
@@ -45,6 +46,9 @@ const emit = defineEmits<{
     </div>
     <div class="toolbar-spacer" />
     <div class="toolbar-group">
+      <button class="toolbar-btn" title="Settings" @click="emit('settings-open')">
+        <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M8 1v2m0 10v2M1 8h2m10 0h2M3.05 3.05l1.41 1.41m7.08 7.08l1.41 1.41m0-12.9l-1.41 1.41m-7.08 7.08l-1.41 1.41" stroke="currentColor" stroke-width="1.2"/></svg>
+      </button>
       <button class="toolbar-btn toolbar-btn-publish" :disabled="!pack.canExecute" title="Publish" @click="emit('publish')">
         Publish
       </button>

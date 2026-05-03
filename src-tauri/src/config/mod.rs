@@ -26,7 +26,7 @@ pub struct AppSettings {
 impl Default for AppSettings {
     fn default() -> Self {
         Self {
-            language: "system".to_string(),
+            language: "zh".to_string(),
             launch_animation: true,
             particle_level: "high".to_string(),
             window_width: 1280.0,

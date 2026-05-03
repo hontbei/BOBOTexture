@@ -29,7 +29,7 @@ export const useAppStore = defineStore('app', {
     ready: false,
     configDir: '',
     settings: {
-      language: 'system',
+      language: 'zh',
       launch_animation: true,
       particle_level: 'high',
       window_width: 1280,

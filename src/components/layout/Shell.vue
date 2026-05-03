@@ -14,6 +14,7 @@ defineEmits<{
   'set-output-dir': []
   publish: []
   'request-close': []
+  'settings-open': []
 }>()
 </script>
 
@@ -30,6 +31,7 @@ defineEmits<{
         @open="$emit('open')"
         @set-output-dir="$emit('set-output-dir')"
         @publish="$emit('publish')"
+        @settings-open="$emit('settings-open')"
       />
     </div>
     <div class="shell-body">

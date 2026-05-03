@@ -9,12 +9,14 @@ import { useProjectFileActions } from './composables/useProjectFileActions'
 import { useKeyboard } from './composables/useKeyboard'
 import Shell from './components/layout/Shell.vue'
 import ConfirmModal from './components/shared/ConfirmModal.vue'
+import SettingsModal from './components/settings/SettingsModal.vue'
 
 const app = useAppStore()
 const project = useProjectStore()
 const pack = usePackStore()
 const report = useReportStore()
 const confirmModal = ref<InstanceType<typeof ConfirmModal> | null>(null)
+const settingsModal = ref<InstanceType<typeof SettingsModal> | null>(null)
 const actions = useProjectFileActions()
 const appWindow = getCurrentWindow()
 
@@ -124,6 +126,8 @@ watch(
     @set-output-dir="actions.doSetOutputDir()"
     @publish="actions.doPublish()"
     @request-close="requestClose()"
+    @settings-open="settingsModal?.show()"
   />
   <ConfirmModal ref="confirmModal" />
+  <SettingsModal ref="settingsModal" />
 </template>
