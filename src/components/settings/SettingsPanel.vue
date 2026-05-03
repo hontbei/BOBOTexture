@@ -24,7 +24,6 @@ async function handleExecute() {
       <LayoutSection />
       <SpacingSection />
       <TrimSection />
-      <ExportSection />
       <AdvancedSection />
       <ResultSection />
     </div>

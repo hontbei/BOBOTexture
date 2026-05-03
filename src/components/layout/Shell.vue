@@ -4,6 +4,7 @@ import PanelCenter from './PanelCenter.vue'
 import PanelRight from './PanelRight.vue'
 import StatusBar from './StatusBar.vue'
 import Toolbar from './Toolbar.vue'
+import ExportBar from './ExportBar.vue'
 import WindowChrome from './WindowChrome.vue'
 
 defineEmits<{
@@ -11,7 +12,6 @@ defineEmits<{
   'save-as': []
   new: []
   open: []
-  'set-output-dir': []
   publish: []
   'request-close': []
   'settings-open': []
@@ -29,10 +29,11 @@ defineEmits<{
         @save-as="$emit('save-as')"
         @new="$emit('new')"
         @open="$emit('open')"
-        @set-output-dir="$emit('set-output-dir')"
-        @publish="$emit('publish')"
         @settings-open="$emit('settings-open')"
       />
+    </div>
+    <div class="shell-export">
+      <ExportBar @publish="$emit('publish')" />
     </div>
     <div class="shell-body">
       <PanelLeft class="shell-left" />
@@ -50,7 +51,7 @@ defineEmits<{
 <style scoped>
 .shell-root {
   display: grid;
-  grid-template-rows: 32px var(--toolbar-height) 1fr var(--statusbar-height);
+  grid-template-rows: 32px var(--toolbar-height) auto 1fr var(--statusbar-height);
   grid-template-columns: 1fr;
   width: 100%;
   height: 100%;

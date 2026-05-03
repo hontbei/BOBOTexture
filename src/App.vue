@@ -123,7 +123,6 @@ watch(
     @save-as="actions.doSaveAs()"
     @new="actions.doNew()"
     @open="actions.doOpen()"
-    @set-output-dir="actions.doSetOutputDir()"
     @publish="actions.doPublish()"
     @request-close="requestClose()"
     @settings-open="settingsModal?.show()"
