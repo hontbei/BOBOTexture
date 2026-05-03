@@ -48,9 +48,8 @@ const emit = defineEmits<{ publish: [] }>()
       <div class="eb-input-row">
         <input
           type="text" class="eb-input"
-          :value="pack.outputDir"
+          v-model="pack.outputDir"
           :placeholder="t('atlaspro.placeholders.outputDir')"
-          @input="pack.outputDir = ($event.target as HTMLInputElement).value"
         />
         <button class="eb-browse" @click="browse">{{ $t('common.browse') }}</button>
       </div>
@@ -62,9 +61,8 @@ const emit = defineEmits<{ publish: [] }>()
       <span class="eb-label">{{ $t('atlaspro.fields.atlasName') }}</span>
       <input
         type="text" class="eb-input eb-input-sm"
-        :value="pack.atlasName"
+        v-model="pack.atlasName"
         :placeholder="t('atlaspro.placeholders.atlasName')"
-        @input="pack.atlasName = ($event.target as HTMLInputElement).value"
       />
     </div>
 
