@@ -19,6 +19,6 @@ import ResultSection from './ResultSection.vue'
 </template>
 
 <style scoped>
-.settings-panel { display: flex; flex-direction: column; height: 100%; }
-.settings-scroll { flex: 1; overflow-y: auto; padding: 8px; }
+.settings-panel { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.settings-scroll { flex: 1; overflow-y: auto; padding: 8px; min-height: 0; }
 </style>

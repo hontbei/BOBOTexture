@@ -73,12 +73,21 @@ defineEmits<{
 }
 
 .shell-left {
-  width: 300px;
-  min-width: 240px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  width: 300px; min-width: 240px; flex-shrink: 0;
+  display: flex; flex-direction: column; overflow: hidden;
+  height: 100%;
+}
+
+.shell-center {
+  flex: 1; min-width: 200px;
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--bg-app); height: 100%;
+}
+
+.shell-right {
+  width: 320px; min-width: 280px; flex-shrink: 0;
+  display: flex; flex-direction: column; overflow: hidden;
+  height: 100%;
 }
 
 .shell-center {

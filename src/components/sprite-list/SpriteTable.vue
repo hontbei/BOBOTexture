@@ -69,7 +69,7 @@ function closeMenu() { ctxMenu.value = null }
 </template>
 
 <style scoped>
-.sprite-table { display: flex; flex-direction: column; height: 100%; }
+.sprite-table { display: flex; flex-direction: column; height: 100%; min-height: 0; }
 .table-header {
   display: grid; grid-template-columns: minmax(120px, 1.2fr) 70px 80px minmax(140px, 2fr) 32px;
   padding: 6px 8px; border-bottom: 2px solid var(--divider); gap: 4px; flex-shrink: 0;

@@ -109,7 +109,6 @@ export const usePackStore = defineStore('pack', () => {
     if (!project.sourceCount) return
 
     const autoDir = outputDir.value.trim() || '/tmp/bobotexture-autopack'
-    busy.value = true
     try {
       const start = performance.now()
       const report = await executeAtlasPro({
@@ -129,8 +128,6 @@ export const usePackStore = defineStore('pack', () => {
       useReportStore().setReport(report, Math.round(performance.now() - start))
     } catch {
       // Auto-pack errors are non-fatal
-    } finally {
-      busy.value = false
     }
   }
 
