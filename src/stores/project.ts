@@ -156,8 +156,7 @@ export const useProjectStore = defineStore('project', () => {
     pack.allowRotation = file.settings.allowRotation
     pack.scaleVariants = file.scaleVariants.map(v => ({ ...v }))
 
-      setProjectFile(path)
-      await captureSaved()
+    setProjectFile(path)
 
     if (file.sources.length > 0) {
       try {
@@ -169,6 +168,8 @@ export const useProjectStore = defineStore('project', () => {
     } else {
       replaceSources([])
     }
+
+    await captureSaved()
   }
 
   return {
