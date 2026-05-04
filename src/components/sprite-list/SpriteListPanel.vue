@@ -9,13 +9,11 @@ import SpriteTable from './SpriteTable.vue'
 
 const { t } = useI18n()
 const project = useProjectStore()
-
 const filter = ref('')
-const recursive = ref(true)
 
 async function handleDrop(paths: string[]) {
   try {
-    const discovered = await scanAtlasProInputs(paths, recursive.value)
+    const discovered = await scanAtlasProInputs(paths, true)
     project.addSources(discovered)
   } catch (err) {
     console.error('Scan failed:', err)
@@ -34,15 +32,7 @@ async function handleDrop(paths: string[]) {
     <div class="list-controls">
       <span class="count-pill">{{ t('atlaspro.spriteCount', { count: project.sourceCount }) }}</span>
       <div class="list-actions">
-        <label class="recursive-toggle" title="勾选后，添加文件夹时会扫描所有子目录中的图片">
-          <input v-model="recursive" type="checkbox" />
-          <span>{{ $t('common.recursive') }}</span>
-        </label>
-        <button
-          class="action-btn"
-          :disabled="!project.sourceCount"
-          @click="project.clearSources()"
-        >
+        <button class="action-btn" :disabled="!project.sourceCount" @click="project.clearSources()">
           {{ t('atlaspro.clearList') }}
         </button>
       </div>
@@ -63,6 +53,7 @@ async function handleDrop(paths: string[]) {
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow: hidden;
 }
 
 .list-controls {
@@ -88,15 +79,6 @@ async function handleDrop(paths: string[]) {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.recursive-toggle {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  color: var(--text-muted);
-  cursor: pointer;
 }
 
 .action-btn {

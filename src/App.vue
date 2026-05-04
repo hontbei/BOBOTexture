@@ -129,6 +129,7 @@ watch(
     sources: [...project.sources.map((s: { sourcePath: string }) => s.sourcePath)],
   }),
   () => {
+    if (!project.savedFingerprint) return
     const fp = JSON.stringify({
       sources: [...project.sources.map((s: { sourcePath: string }) => s.sourcePath)].sort(),
       atlasName: pack.atlasName, outputDir: pack.outputDir,
