@@ -36,19 +36,20 @@ export function drawAtlas(options: DrawAtlasOptions) {
 
   // Draw grid
   if (showGrid) {
-    ctx.strokeStyle = 'rgba(0,0,0,0.06)'
+    const scale = zoom
+    ctx.strokeStyle = 'rgba(0,0,0,0.12)'
     ctx.lineWidth = 1
     const gridSize = 32
     for (let x = 0; x <= atlasWidth; x += gridSize) {
       ctx.beginPath()
-      ctx.moveTo(x, 0)
-      ctx.lineTo(x, atlasHeight)
+      ctx.moveTo(x, 0); ctx.lineTo(x, atlasHeight)
+      ctx.lineWidth = (x % 128 === 0) ? 1.5 / scale : 0.5 / scale
       ctx.stroke()
     }
     for (let y = 0; y <= atlasHeight; y += gridSize) {
       ctx.beginPath()
-      ctx.moveTo(0, y)
-      ctx.lineTo(atlasWidth, y)
+      ctx.moveTo(0, y); ctx.lineTo(atlasWidth, y)
+      ctx.lineWidth = (y % 128 === 0) ? 1.5 / scale : 0.5 / scale
       ctx.stroke()
     }
   }

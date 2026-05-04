@@ -46,6 +46,7 @@ function removeVariant(index: number) {
           <button class="mini-btn" @click="addVariant">{{ $t('atlaspro.variants.add') }}</button>
         </div>
       </div>
+      <p class="variant-hint">{{ $t('atlaspro.sections.variantsSub') }}</p>
       <div v-for="(v, i) in pack.scaleVariants" :key="i" class="variant-row">
         <input
           type="text"
@@ -103,6 +104,11 @@ function removeVariant(index: number) {
 .mini-btn:hover {
   border-color: var(--accent);
   color: var(--accent);
+}
+
+.variant-hint {
+  font-size: 11px; color: var(--text-muted);
+  margin: 4px 0 0; line-height: 1.4;
 }
 
 .variant-row {

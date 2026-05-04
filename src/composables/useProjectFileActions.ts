@@ -75,6 +75,7 @@ export function useProjectFileActions() {
     project.resetProject(freshName())
     pack.resetDefaults()
     report.clearReport()
+    project.captureSaved()
   }
 
   async function doOpen() {

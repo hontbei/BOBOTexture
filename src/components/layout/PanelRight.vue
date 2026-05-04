@@ -63,6 +63,7 @@ onUnmounted(() => {
   border-right: none;
   border-left: 1px solid var(--divider);
   overflow: hidden;
+  min-height: 0;
 }
 
 .panel-header {

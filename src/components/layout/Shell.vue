@@ -35,7 +35,7 @@ defineEmits<{
     <div class="shell-export">
       <ExportBar @publish="$emit('publish')" />
     </div>
-    <div class="shell-body">
+    <div class="shell-body" @contextmenu.prevent>
       <PanelLeft class="shell-left" />
       <div class="panel-divider" />
       <PanelCenter class="shell-center" />

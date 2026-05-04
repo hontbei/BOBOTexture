@@ -60,6 +60,7 @@ onUnmounted(() => {
   position: relative;
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 
 .panel-header {

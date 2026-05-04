@@ -34,9 +34,9 @@ async function handleDrop(paths: string[]) {
     <div class="list-controls">
       <span class="count-pill">{{ t('atlaspro.spriteCount', { count: project.sourceCount }) }}</span>
       <div class="list-actions">
-        <label class="recursive-toggle">
+        <label class="recursive-toggle" title="勾选后，添加文件夹时会扫描所有子目录中的图片">
           <input v-model="recursive" type="checkbox" />
-          <span>{{ t('common.recursive') }}</span>
+          <span>{{ $t('common.recursive') }}</span>
         </label>
         <button
           class="action-btn"

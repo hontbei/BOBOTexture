@@ -35,9 +35,6 @@ const emit = defineEmits<{
       <button class="toolbar-btn" :disabled="!project.undoStack.length" :title="$t('toolbar.undo') + ' (Ctrl+Z)'" @click="project.undo()">
         <svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 7h7a3 3 0 010 6H6" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M6 4l-3 3 3 3" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
       </button>
-      <button class="toolbar-btn" :disabled="!project.redoStack.length" :title="$t('toolbar.redo') + ' (Ctrl+Shift+Z)'" @click="project.redo()">
-        <svg width="16" height="16" viewBox="0 0 16 16"><path d="M13 7H6a3 3 0 000 6h4" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M10 4l3 3-3 3" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
-      </button>
     </div>
     <div class="toolbar-spacer" />
     <div class="toolbar-group">

@@ -79,6 +79,7 @@ onMounted(async () => {
   await app.initLogListener()
   await app.bootstrap()
   await actions.doAutoLoad()
+  if (!project.savedFingerprint) await project.captureSaved()
 })
 
 onUnmounted(() => {
@@ -125,11 +126,11 @@ watch(
     extrude: pack.padding.extrude, trim: pack.trim, alphaThreshold: pack.alphaThreshold,
     formats: pack.formats, scaleVariants: pack.scaleVariants,
     allowRotation: pack.allowRotation,
-    sources: project.sources.map(s => s.sourcePath),
+    sources: [...project.sources.map((s: { sourcePath: string }) => s.sourcePath)],
   }),
   () => {
     const fp = JSON.stringify({
-      sources: project.sources.map(s => s.sourcePath).sort(),
+      sources: [...project.sources.map((s: { sourcePath: string }) => s.sourcePath)].sort(),
       atlasName: pack.atlasName, outputDir: pack.outputDir,
       algorithm: pack.algorithm, autoSize: pack.autoSize,
       maxWidth: pack.maxWidth, maxHeight: pack.maxHeight,

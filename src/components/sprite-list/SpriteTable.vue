@@ -55,6 +55,7 @@ function onLeave() {
         @hover="onHover(source)"
         @leave="onLeave()"
         @remove="emit('remove', source)"
+        @remove-context="emit('remove', source)"
       />
       <div v-if="!filteredSources.length" class="table-empty">
         {{ filter ? $t('empty.noMatching') : $t('empty.noSprites') }}

@@ -44,6 +44,11 @@ export const useProjectStore = defineStore('project', () => {
     sources.value = sources.value.filter(s => sourceFingerprint(s) !== fp)
   }
 
+  function removeSourceById(id: string) {
+    const s = sources.value.find(x => x.id === id)
+    if (s) removeSource(s)
+  }
+
   function clearSources() {
     snapshotForUndo()
     sources.value = []
@@ -89,8 +94,21 @@ export const useProjectStore = defineStore('project', () => {
     dirty.value = false
   }
 
-  function setFingerprint(fp: string) {
-    savedFingerprint.value = fp
+  async function captureSaved() {
+    const { usePackStore } = await import('./pack')
+    const pack = usePackStore()
+    savedFingerprint.value = JSON.stringify({
+      sources: sources.value.map(s => s.sourcePath).sort(),
+      atlasName: pack.atlasName, outputDir: pack.outputDir,
+      algorithm: pack.algorithm, autoSize: pack.autoSize,
+      maxWidth: pack.maxWidth, maxHeight: pack.maxHeight,
+      padding: { ...pack.padding },
+      trim: pack.trim, alphaThreshold: pack.alphaThreshold,
+      formats: [...pack.formats].sort(),
+      allowRotation: pack.allowRotation,
+      scaleVariants: [...pack.scaleVariants],
+    })
+    dirty.value = false
   }
 
   async function saveProject(path: string) {
@@ -116,8 +134,7 @@ export const useProjectStore = defineStore('project', () => {
     }
     await writeTextFile(path, JSON.stringify(file, null, 2))
     setProjectFile(path)
-    markClean()
-    setFingerprint(JSON.stringify(file))
+    await captureSaved()
   }
 
   async function loadProject(path: string) {
@@ -139,9 +156,8 @@ export const useProjectStore = defineStore('project', () => {
     pack.allowRotation = file.settings.allowRotation
     pack.scaleVariants = file.scaleVariants.map(v => ({ ...v }))
 
-    setProjectFile(path)
-    markClean()
-    setFingerprint(JSON.stringify(file))
+      setProjectFile(path)
+      await captureSaved()
 
     if (file.sources.length > 0) {
       try {
@@ -158,7 +174,7 @@ export const useProjectStore = defineStore('project', () => {
   return {
     sources, projectFilePath, projectName, dirty, savedFingerprint,
     undoStack, redoStack, sourceCount, fingerprints,
-    addSources, removeSource, clearSources, replaceSources, resetProject,
-    undo, redo, setProjectFile, markClean, setFingerprint, saveProject, loadProject,
+    addSources, removeSource, removeSourceById, clearSources, replaceSources, resetProject,
+    undo, redo, setProjectFile, markClean, captureSaved, saveProject, loadProject,
   }
 })

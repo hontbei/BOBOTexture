@@ -14,6 +14,7 @@ const emit = defineEmits<{
   select: []
   hover: []
   leave: []
+  'remove-context': []
 }>()
 
 const displaySize = computed(() => `${props.source.subRect.width}×${props.source.subRect.height}`)
@@ -30,6 +31,7 @@ const pathDisplay = computed(() => {
     @click="emit('select')"
     @mouseenter="emit('hover')"
     @mouseleave="emit('leave')"
+    @contextmenu.prevent="emit('remove-context')"
   >
     <span class="sprite-col sprite-col-name truncate" :title="source.name">{{ source.name }}</span>
     <span class="sprite-col sprite-col-origin">
